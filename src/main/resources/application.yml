@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: drools_v4_webflux
+
+  # R2DBC Configuration for MariaDB
+  r2dbc:
+    url: r2dbc:mariadb://localhost:3306/${MYSQL_DATABASE}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+    pool:
+      initial-size: 5
+      max-size: 10
+      max-idle-time: 30m
+
+  # Optional: JPA/Hibernate settings (if you're using JPA alongside R2DBC)
+  # Note: R2DBC doesn't use JPA, but you might have both for different purposes
+
+server:
+  port: 8081

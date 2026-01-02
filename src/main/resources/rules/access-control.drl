@@ -1,0 +1,48 @@
+package com.hunesion.drools_v4_webflux.rules
+
+import com.hunesion.drools_v4_webflux.model.entity.*
+import com.hunesion.drools_v4_webflux.service.DroolsAccessControlServiceImpl.AccessDecision
+
+// Rule 1: Allow if policy explicitly allows
+rule "Allow based on policy"
+    when
+        $decision : AccessDecision()
+        $policy : Policy(effect == "ALLOW", enabled == true,
+                        roleId == $decision.roles[0].id,
+                        resourceId == $decision.resource.id,
+                        actionId == $decision.action.id)
+    then
+        $decision.setAllowed(true);
+        System.out.println("Rule fired: ALLOW - Policy: " + $policy.getPolicyName());
+    end
+
+// Rule 2: Deny if policy explicitly denies (higher priority)
+rule "Deny based on policy"
+    when
+        $decision : AccessDecision()
+        $policy : Policy(effect == "DENY", enabled == true,
+                        roleId == $decision.roles[0].id,
+                        resourceId == $decision.resource.id,
+                        actionId == $decision.action.id)
+    then
+        $decision.setAllowed(false);
+        System.out.println("Rule fired: DENY - Policy: " + $policy.getPolicyName());
+    end
+
+// Rule 3: Admin role can do everything
+rule "Admin has full access"
+    when
+        $decision : AccessDecision()
+        $role : Role(roleName == "ADMIN") from $decision.roles
+    then
+        $decision.setAllowed(true);
+        System.out.println("Rule fired: ALLOW - Admin role");
+    end
+
+// Rule 4: Default deny (if no rules match)
+rule "Default deny"
+    when
+        $decision : AccessDecision(allowed == false)
+    then
+        System.out.println("Rule fired: Default DENY");
+    end

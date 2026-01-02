@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+    <kbase name="access-control" packages="com.hunesion.drools_v4_webflux.rules">
+        <ksession name="accessControlSession" default="true"/>
+    </kbase>
+</kmodule>

@@ -25,6 +25,15 @@ repositories {
 }
 
 dependencies {
+    // Dotenv support for Spring Boot
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+
+    // Drools
+    implementation 'org.drools:drools-core:8.44.0.Final'
+    implementation 'org.drools:drools-compiler:8.44.0.Final'
+    implementation 'org.drools:drools-mvel:8.44.0.Final'
+    implementation 'org.drools:drools-xml-support:8.44.0.Final'
+
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     testImplementation 'org.springframework.boot:spring-boot-starter-data-r2dbc-test'
